@@ -25,6 +25,11 @@ ifeq ($(findstring milkv-duos,$(CONFIG_DIR)),milkv-duos)
 AA_PROXY_RS_CARGO_ENV += PATH=/app/buildroot/output/milkv-duos/build/riscv/bin:$(BR_PATH)
 endif
 
+# disable wasm-scripting on armv6 (wasmtime doesn't support it)
+ifeq ($(RUSTC_TARGET_NAME),arm-unknown-linux-gnueabihf)
+AA_PROXY_RS_CARGO_BUILD_OPTS += --no-default-features
+endif
+
 # default config file generator
 define AA_PROXY_RS_GENERATE_CONFIG
     cd $(@D) && env PATH=$${PATH}:$(HOST_DIR)/bin cargo run --release --bin generate_config

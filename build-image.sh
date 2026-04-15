@@ -53,6 +53,15 @@ else
         echo "All patches applied successfully."
     fi
 
+    # If local aa-proxy-rs source is mounted, use it via Buildroot _OVERRIDE_SRCDIR
+    if [ -d /app/aa-proxy-rs ]; then
+        echo "Local aa-proxy-rs source detected, using override."
+        echo 'AA_PROXY_RS_OVERRIDE_SRCDIR = /app/aa-proxy-rs' > ${OUTPUT}/local.mk
+    else
+        # Remove stale local.mk to avoid pointing at a missing directory
+        rm -f ${OUTPUT}/local.mk
+    fi
+
     make BR2_EXTERNAL=../external/ O=${OUTPUT} gen_${ARG}_defconfig
     cd ${OUTPUT}
     make -j$(nproc --all)

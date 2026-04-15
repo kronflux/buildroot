@@ -56,8 +56,29 @@ if [[ "$CMD" == "build" ]]; then
         -t aaproxybr .
 else
     echo "Running container with $ENGINE: aaproxybr $CMD $*"
+
+    # Detect local aa-proxy-rs source directory.
+    # Check AA_PROXY_RS_DIR env var first, then fall back to sibling directory.
+    if [[ -z "${AA_PROXY_RS_DIR:-}" ]]; then
+        _CANDIDATE="$(cd "$(dirname "$0")/.." && pwd)/aa-proxy-rs"
+        if [[ -d "$_CANDIDATE" ]]; then
+            AA_PROXY_RS_DIR="$_CANDIDATE"
+        fi
+    fi
+
+    LOCAL_MOUNTS=""
+    if [[ -n "${AA_PROXY_RS_DIR:-}" ]]; then
+        if [[ -d "$AA_PROXY_RS_DIR" ]]; then
+            echo "Using local aa-proxy-rs source: $AA_PROXY_RS_DIR"
+            LOCAL_MOUNTS="-v ${AA_PROXY_RS_DIR}:/app/aa-proxy-rs:z"
+        else
+            echo "WARNING: AA_PROXY_RS_DIR='$AA_PROXY_RS_DIR' does not exist, ignoring." >&2
+        fi
+    fi
+
     "$ENGINE" run $USERNS_ARG $INTERACTIVE --rm \
         -v "$(pwd):/app":z \
+        $LOCAL_MOUNTS \
         aaproxybr \
         "$CMD" "$@"
 fi

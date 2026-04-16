@@ -1,20 +1,44 @@
 ctrl_interface=/var/run/hostapd
 interface=wlan0
 
+# Radio / Physical Layer
 hw_mode={{HW_MODE}}
-ieee80211be={{BE_MODE}}
-ieee80211ax={{AX_MODE}}
-ieee80211ac={{AC_MODE}}
-ieee80211n={{N_MODE}}
 channel={{CHANNEL}}
+country_code={{COUNTRY_CODE}}
 
+# Enforce country-specific channel and transmit power limits
+ieee80211d=1
+
+# Standard support (set by aa-proxy-rs: 0 or 1)
+ieee80211n={{N_MODE}}
+ieee80211ac={{AC_MODE}}
+ieee80211ax={{AX_MODE}}
+ieee80211be={{BE_MODE}}
+
+# HT capabilities (computed by aa-proxy-rs based on channel and band)
+ht_capab={{HT_CAPAB}}
+
+# VHT operating channel width and center frequency (5 GHz only)
+vht_oper_chwidth={{VHT_OPER_CHWIDTH}}
+vht_oper_centr_freq_seg0_idx={{VHT_CENTR_FREQ}}
+
+# OBSS coexistence scan interval (seconds); relevant on 2.4 GHz, disabled on 5 GHz
+obss_interval={{OBSS_INTERVAL}}
+
+# WMM is required for 802.11n/ac/ax data rates
+wmm_enabled=1
+
+# Disable U-APSD to reduce latency spikes with Android devices
+uapsd_advertisement_enabled=0
+
+# Security
 auth_algs=1
 wpa=2
 wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-#rsn_pairwise=CCMP
+rsn_pairwise=CCMP
+
+# Limit the station table
+max_num_sta=16
 
 ssid={{SSID}}
-
 wpa_passphrase={{WPA_PASSPHRASE}}
-country_code={{COUNTRY_CODE}}

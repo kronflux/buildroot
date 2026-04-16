@@ -1,7 +1,36 @@
+# Boot
 CONFIG_CMDLINE="user_debug=31 init=/etc/overlay_init"
+
+# Bluetooth
 CONFIG_BT_RFCOMM_TTY=y
+
+# USB gadget
 CONFIG_USB_CONFIGFS_UEVENT=y
 CONFIG_USB_CONFIGFS_F_ACC=y
+
+# Filesystem / IPC
 CONFIG_IO_URING=y
 CONFIG_OVERLAY_FS=y
 CONFIG_POSIX_MQUEUE=y
+
+# Enable preemptible kernel for lower scheduling latency
+CONFIG_PREEMPT=y
+
+# Use performance CPU governor by default (USB-powered, no battery concern)
+CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
+CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=n
+
+# Disable legacy wireless extensions (use nl80211 only)
+CONFIG_WIRELESS_EXT=n
+CONFIG_WEXT_SPY=n
+CONFIG_WEXT_PRIV=n
+
+# Advanced TCP congestion control
+CONFIG_TCP_CONG_ADVANCED=y
+
+# Traffic control and fq_codel for WiFi QoS / anti-bufferbloat
+CONFIG_NET_SCHED=y
+CONFIG_NET_SCH_FQ_CODEL=y
+CONFIG_NET_SCH_FQ=y
+CONFIG_NET_SCH_DEFAULT=y
+CONFIG_DEFAULT_FQ_CODEL=y

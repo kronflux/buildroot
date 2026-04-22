@@ -10,6 +10,7 @@ software =
 					{
 						filename = "rootfs.ext4";
 						type = "raw";
+						compressed = "zlib";
                         installed-directly = true;
 						device = "/dev/mmcblk0p2";
 					}
@@ -30,6 +31,7 @@ software =
 					{
 						filename = "rootfs.ext4";
 						type = "raw";
+						compressed = "zlib";
                         installed-directly = true;
 						device = "/dev/mmcblk0p3";
 					}

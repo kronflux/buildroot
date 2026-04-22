@@ -11,7 +11,8 @@ arm_freq_min=500
 gpu_freq_min=500
 
 [all]
-kernel=Image
+kernel=u-boot.bin
+enable_uart=1
 
 # enable 64-bit kernel
 arm_64bit=1

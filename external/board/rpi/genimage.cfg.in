@@ -28,10 +28,15 @@ image sdcard.img {
 		image = "boot.vfat"
 	}
 
-	partition rootfs {
+	partition rootfs1 {
 		partition-type = 0x83
 		image = "rootfs.ext4"
 	}
+
+	partition rootfs2 {
+        partition-type = 0x83
+        image = "rootfs.ext4"
+    }
 
 	partition userdata {
 		partition-type = 0x83

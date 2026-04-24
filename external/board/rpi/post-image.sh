@@ -2,19 +2,27 @@
 
 set -e
 
-# workaround for:
-# https://gitlab.com/buildroot.org/buildroot/-/issues/131
-if grep -q 'rpi0w' "${BR2_CONFIG}"; then
-    cp ${BUILD_DIR}/linux-custom/arch/arm/boot/zImage ${BUILD_DIR}/../images/Image
+mkdir -p ${BINARIES_DIR}/rpi-firmware
+
+KERNEL_BOOT_CMD="booti"
+KERNEL_IMAGE_TYPE="Image"
+
+if grep -q '^BR2_LINUX_KERNEL_UIMAGE=y$' "${BR2_CONFIG}"; then
+  KERNEL_BOOT_CMD="bootm"
+  KERNEL_IMAGE_TYPE="uImage"
 fi
 
-mkdir -p ${BINARIES_DIR}/rpi-firmware
-cp -f ${BINARIES_DIR}/Image ${BINARIES_DIR}/rpi-firmware
+cp -f "${BINARIES_DIR}/${KERNEL_IMAGE_TYPE}" "${BINARIES_DIR}/rpi-firmware"
+
+sed \
+  -e "s|@KERNEL_BOOT_CMD@|${KERNEL_BOOT_CMD}|" \
+  -e "s|@KERNEL_IMAGE_TYPE@|${KERNEL_IMAGE_TYPE}|" \
+  "${BR2_EXTERNAL_AA_PROXY_OS_PATH}/board/rpi/boot.cmd.in" > "${BUILD_DIR}/boot.cmd"
 
 mkimage -A arm64 -T script -C none \
   -n "Boot script" \
-  -d ${BR2_EXTERNAL_AA_PROXY_OS_PATH}/board/rpi/boot.cmd \
-  ${BINARIES_DIR}/rpi-firmware/boot.scr
+  -d "${BUILD_DIR}/boot.cmd" \
+  "${BINARIES_DIR}/rpi-firmware/boot.scr"
 
 BOARD_DIR="$(dirname $0)"
 BOARD_NAME="$(basename ${BOARD_DIR})"

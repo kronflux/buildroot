@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: buildroot/dl
-          key: ${{ github.workflow }}-downloads-${{ hashFiles('external/configs/**') }}
+          key: ${{ github.workflow }}-downloads-${{ hashFiles('external/configs/*') }}
           restore-keys: |
             ${{ github.workflow }}-downloads-
 
@@ -30,7 +30,7 @@ jobs:
           path: |
             buildroot/output/${{ matrix.board }}/build
             buildroot/output/${{ matrix.board }}/per-package
-          key: ${{ github.workflow }}-${{ matrix.board }}-bin-${{ runner.arch }}-${{ hashFiles('external/**') }}
+          key: ${{ github.workflow }}-${{ matrix.board }}-bin-${{ runner.arch }}-${{ hashFiles('external/configs/*', 'external/package/**', 'external/patches/**') }}
           restore-keys: |
             ${{ github.workflow }}-${{ matrix.board }}-bin-${{ runner.arch }}-
 

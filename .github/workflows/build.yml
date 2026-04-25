@@ -24,16 +24,6 @@ jobs:
           restore-keys: |
             ${{ github.workflow }}-downloads-
 
-      - name: Cache compiled code
-        uses: actions/cache@v4
-        with:
-          path: |
-            buildroot/output/${{ matrix.board }}/build
-            buildroot/output/${{ matrix.board }}/per-package
-          key: ${{ github.workflow }}-${{ matrix.board }}-bin-${{ runner.arch }}-${{ hashFiles('external/configs/*', 'external/package/**', 'external/patches/**') }}
-          restore-keys: |
-            ${{ github.workflow }}-${{ matrix.board }}-bin-${{ runner.arch }}-
-
       - name: Build Docker image
         run: CONTAINER_ENGINE=docker ./docker-dev.sh build
 

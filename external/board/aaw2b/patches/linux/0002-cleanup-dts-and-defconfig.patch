@@ -269,10 +269,8 @@ The aaw2b.dts becomes a minimal stub that includes the new dtsi.
 
 --- /dev/null	2026-04-16 18:53:31.965655881 +0000
 +++ b/arch/arm/boot/dts/aaw2b.dtsi	2026-04-16 18:53:32.033478082 +0000
-@@ -0,0 +1,254 @@
+@@ -0,0 +1,252 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+/dts-v1/;
 +
 +#include "rv1103.dtsi"
 +#include <dt-bindings/input/input.h>

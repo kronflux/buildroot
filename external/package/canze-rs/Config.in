@@ -1,0 +1,7 @@
+config BR2_PACKAGE_CANZE_RS
+	bool "canze-rs"
+	depends on BR2_PACKAGE_HOST_RUSTC_TARGET_ARCH_SUPPORTS
+	select BR2_PACKAGE_HOST_RUSTC
+	help
+	  Rust daemon to read EV parameters using bluetooth dongle.
+	  Started automatically by aa-proxy-rs via ev_battery_logger config.

@@ -62,6 +62,12 @@ else
         rm -f ${OUTPUT}/local.mk
     fi
 
+    # If local canze-rs source is mounted, use it via Buildroot _OVERRIDE_SRCDIR
+    if [ -d /app/canze-rs ]; then
+        echo "Local canze-rs source detected, using override."
+        echo 'CANZE_RS_OVERRIDE_SRCDIR = /app/canze-rs' >> ${OUTPUT}/local.mk
+    fi
+
     make BR2_EXTERNAL=../external/ O=${OUTPUT} gen_${ARG}_defconfig
     cd ${OUTPUT}
     make -j$(nproc --all)

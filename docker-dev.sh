@@ -66,6 +66,14 @@ else
         fi
     fi
 
+    # Detect local canze-rs source directory.
+    if [[ -z "${CANZE_RS_DIR:-}" ]]; then
+        _CANDIDATE="$(cd "$(dirname "$0")/.." && pwd)/canze-rs"
+        if [[ -d "$_CANDIDATE" ]]; then
+            CANZE_RS_DIR="$_CANDIDATE"
+        fi
+    fi
+
     LOCAL_MOUNTS=""
     if [[ -n "${AA_PROXY_RS_DIR:-}" ]]; then
         if [[ -d "$AA_PROXY_RS_DIR" ]]; then
@@ -73,6 +81,15 @@ else
             LOCAL_MOUNTS="-v ${AA_PROXY_RS_DIR}:/app/aa-proxy-rs:z"
         else
             echo "WARNING: AA_PROXY_RS_DIR='$AA_PROXY_RS_DIR' does not exist, ignoring." >&2
+        fi
+    fi
+
+    if [[ -n "${CANZE_RS_DIR:-}" ]]; then
+        if [[ -d "$CANZE_RS_DIR" ]]; then
+            echo "Using local canze-rs source: $CANZE_RS_DIR"
+            LOCAL_MOUNTS="$LOCAL_MOUNTS -v ${CANZE_RS_DIR}:/app/canze-rs:z"
+        else
+            echo "WARNING: CANZE_RS_DIR='$CANZE_RS_DIR' does not exist, ignoring." >&2
         fi
     fi
 

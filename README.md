@@ -7,15 +7,15 @@ This repository contains the build system (based on Buildroot) used for building
 ```bash
 git clone --recurse-submodules https://github.com/aa-proxy/buildroot
 cd buildroot
-./docker-dev build
-./docker-dev rpi02w
+./docker-dev.sh build
+./docker-dev.sh rpi02w
 ```
 
 ## 🐳 Interactive development (container shell)
 If you want more control, you can enter an interactive shell inside the development container:
 
 ```
-./docker-dev shell
+./docker-dev.sh shell
 ```
 Once inside, you can manually run builds like this:
 
